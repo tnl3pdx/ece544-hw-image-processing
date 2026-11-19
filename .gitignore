@@ -1,2 +1,4 @@
 vivado/
 vitis/
+vivado*
+*/ip_repo/
