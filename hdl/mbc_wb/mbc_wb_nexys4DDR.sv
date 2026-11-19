@@ -160,8 +160,8 @@ module mbc_wb_nexys4DDR (
         .sysreset_n(sysreset_n),
         
         // UARTLite connections
-        .usb_uart_rxd(UART_TXD_IN),	    // FT2232 output, FPGA input
-        .usb_uart_txd(UART_RXD_OUT),	// FT2232 input, FPGA output 
+        .uart_rtl_0_rxd(UART_TXD_IN),	    // FT2232 output, FPGA input
+        .uart_rtl_0_txd(UART_RXD_OUT),	// FT2232 input, FPGA output 
   
         // Wishbone bus connections
         .m_wb_ack_0(m_wb_ack),
