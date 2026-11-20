@@ -59,14 +59,31 @@ module mbc_wb_nexys4DDR (
 
     // UART
     output wire        UART_RXD_OUT,
-    input  wire        UART_TXD_IN
+    input  wire        UART_TXD_IN,
+    
+    // DDR Signals
+    output wire [12:0]DDR2_0_addr,
+    output wire [2:0]DDR2_0_ba,
+    output wire DDR2_0_cas_n,
+    output wire [0:0]DDR2_0_ck_n,
+    output wire [0:0]DDR2_0_ck_p,
+    output wire [0:0]DDR2_0_cke,
+    output wire [0:0]DDR2_0_cs_n,
+    output wire [1:0]DDR2_0_dm,
+    inout wire [15:0]DDR2_0_dq,
+    inout wire [1:0]DDR2_0_dqs_n,
+    inout wire [1:0]DDR2_0_dqs_p,
+    output wire [0:0]DDR2_0_odt,
+    output wire DDR2_0_ras_n,
+    output wire DDR2_0_we_n
 );
 
-    // ------------------------------------------------------------
+    // -----------------------DDR2_0_addr-------------------------------------
     // Clock and Reset logic - active‑low reset)
     // ------------------------------------------------------------
     wire sysclk;		// 100MHz in this configuration
     wire vgaclk; 		// 25MHz in this configuration 
+    wire refclk;        // 200MHz in this configuration
     wire locked;		// PLL locked from clock generator
     wire m_wb_reset;	// Wishbone bus reset from AXI/Wishbone bus bridge 
 
@@ -80,6 +97,7 @@ module mbc_wb_nexys4DDR (
    (
     .clk_out1(sysclk),		// 100MHz for CPU, AXI, and WB
     .clk_out2(vgaclk),		// 25MHz for 640 x 480 x 60Hz
+    .clk_out3(refclk),      // 200 MHz for DDR
     .resetn(CPU_RESETN),
     .locked(locked),
     .clk_in1(CLK100MHZ)
@@ -157,6 +175,7 @@ module mbc_wb_nexys4DDR (
     mbc_wb_embsys u_embsys (
         // system clock and reset
         .sysclk(sysclk),
+        .refclk(refclk),
         .sysreset_n(sysreset_n),
         
         // UARTLite connections
@@ -178,7 +197,23 @@ module mbc_wb_nexys4DDR (
         
         // Wishbone interrupt inputs to embedded system Interrupt controller
         .wb_irq0(wb_irq0),
-        .wb_irq1(wb_irq1)
+        .wb_irq1(wb_irq1),
+        
+        // DDR Signals
+        .DDR2_0_addr(DDR2_0_addr),
+        .DDR2_0_ba(DDR2_0_ba),
+        .DDR2_0_cas_n(DDR2_0_cas_n),
+        .DDR2_0_ck_n(DDR2_0_ck_n),
+        .DDR2_0_ck_p(DDR2_0_ck_p),
+        .DDR2_0_cke(DDR2_0_cke),
+        .DDR2_0_cs_n(DDR2_0_cs_n),
+        .DDR2_0_dm(DDR2_0_dm),
+        .DDR2_0_dq(DDR2_0_dq),
+        .DDR2_0_dqs_n(DDR2_0_dqs_n),
+        .DDR2_0_dqs_p(DDR2_0_dqs_p),
+        .DDR2_0_odt(DDR2_0_odt),
+        .DDR2_0_ras_n(DDR2_0_ras_n),
+        .DDR2_0_we_n(DDR2_0_we_n)
      );
     
        
