@@ -2,3 +2,5 @@ vivado/
 vitis/
 vivado*
 */ip_repo/
+.Xil/
+_ide/
