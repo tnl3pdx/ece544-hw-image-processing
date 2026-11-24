@@ -4,3 +4,5 @@ vivado*
 */ip_repo/
 .Xil/
 _ide/
+xvlog.pb
+xsim.dir/
