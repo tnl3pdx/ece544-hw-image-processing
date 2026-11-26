@@ -5,6 +5,9 @@
 	(
 		// Users to add parameters here
 
+		parameter integer MAX_IMAGE_WIDTH = 1920,
+		parameter integer MAX_IMAGE_HEIGHT = 1080,
+
 		// User parameters ends
 		// Do not modify the parameters beyond this line
 
@@ -31,10 +34,12 @@
 		// User ports ends
 		// Do not modify the ports beyond this line
 
+		// Common Ports
+		input wire  axi_aclk,
+		input wire  axi_aresetn,
+
 
 		// Ports of Axi Slave Bus Interface S00_AXI
-		input wire  s00_axi_aclk,
-		input wire  s00_axi_aresetn,
 		input wire [C_S00_AXI_ADDR_WIDTH-1 : 0] s00_axi_awaddr,
 		input wire [2 : 0] s00_axi_awprot,
 		input wire  s00_axi_awvalid,
@@ -56,11 +61,6 @@
 		input wire  s00_axi_rready,
 
 		// Ports of Axi Master Bus Interface M00_AXI
-		input wire  m00_axi_init_axi_txn,
-		output wire  m00_axi_txn_done,
-		output wire  m00_axi_error,
-		input wire  m00_axi_aclk,
-		input wire  m00_axi_aresetn,
 		output wire [C_M00_AXI_ID_WIDTH-1 : 0] m00_axi_awid,
 		output wire [C_M00_AXI_ADDR_WIDTH-1 : 0] m00_axi_awaddr,
 		output wire [7 : 0] m00_axi_awlen,
@@ -109,8 +109,8 @@
 		.C_S_AXI_DATA_WIDTH(C_S00_AXI_DATA_WIDTH),
 		.C_S_AXI_ADDR_WIDTH(C_S00_AXI_ADDR_WIDTH)
 	) hip_transform_ctrl_slave_lite_v1_0_S00_AXI_inst (
-		.S_AXI_ACLK(s00_axi_aclk),
-		.S_AXI_ARESETN(s00_axi_aresetn),
+		.S_AXI_ACLK(axi_aclk),
+		.S_AXI_ARESETN(axi_aresetn),
 		.S_AXI_AWADDR(s00_axi_awaddr),
 		.S_AXI_AWPROT(s00_axi_awprot),
 		.S_AXI_AWVALID(s00_axi_awvalid),
@@ -145,11 +145,8 @@
 		.C_M_AXI_RUSER_WIDTH(C_M00_AXI_RUSER_WIDTH),
 		.C_M_AXI_BUSER_WIDTH(C_M00_AXI_BUSER_WIDTH)
 	) hip_transform_ctrl_master_full_v1_0_M00_AXI_inst (
-		.INIT_AXI_TXN(m00_axi_init_axi_txn),
-		.TXN_DONE(m00_axi_txn_done),
-		.ERROR(m00_axi_error),
-		.M_AXI_ACLK(m00_axi_aclk),
-		.M_AXI_ARESETN(m00_axi_aresetn),
+		.M_AXI_ACLK(axi_aclk),
+		.M_AXI_ARESETN(axi_aresetn),
 		.M_AXI_AWID(m00_axi_awid),
 		.M_AXI_AWADDR(m00_axi_awaddr),
 		.M_AXI_AWLEN(m00_axi_awlen),
